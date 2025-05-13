@@ -14,78 +14,120 @@ export default function Home() {
   }
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center px-4 py-12 sm:py-24">
-      <motion.section
-        initial={{ opacity: 0, y: 32 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1, ease: 'easeOut' }}
-        className="w-full max-w-2xl mx-auto text-center"
-      >
-        <motion.h1
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.1, ease: 'easeOut' }}
-          className="font-sans font-extrabold text-4xl sm:text-5xl md:text-6xl mb-4 text-[#F4A261] tracking-tight"
-          style={{ letterSpacing: '-0.01em', fontFamily: 'var(--font-ibm-plex-sans, Inter, sans-serif)' }}
-        >
-          Zelo.ai
-        </motion.h1>
-        <motion.p
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.2, ease: 'easeOut' }}
-          className="text-lg sm:text-2xl font-medium mb-10 text-[#E0E1DD]"
-        >
-          <span className="block italic">Agentic AI Systems for Your Business, Built with Purpose.</span>
-          <span className="block mt-1 text-sm sm:text-base not-italic text-[#A9B4C2]">AI That Works. Packs That Adapt.</span>
-        </motion.p>
-        <motion.form
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.3, ease: 'easeOut' }}
-          onSubmit={handleSubmit}
-          className="flex flex-col sm:flex-row items-center justify-center gap-4 max-w-lg mx-auto bg-white/5 backdrop-blur-md rounded-2xl p-4 border border-[#E0E1DD]/10 shadow-inner"
-          style={{ boxShadow: '0 8px 32px 0 rgba(13,27,42,0.18)' }}
-        >
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Enter your email"
-            required
-            className="flex-1 text-base font-medium bg-[#1B263B] text-white placeholder-[#E0E1DD] border-none rounded-lg px-4 py-3 focus:ring-2 focus:ring-[#F4A261] focus:outline-none transition-all duration-200 shadow-sm"
-            style={{ minWidth: 0 }}
-          />
-          <motion.button
-            type="submit"
-            disabled={status === 'loading'}
-            whileHover={{ scale: 1.07, boxShadow: '0 6px 32px 0 #F4A26177' }}
-            whileTap={{ scale: 0.98 }}
-            transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-            className="px-7 py-3 rounded-lg font-semibold text-base bg-[#F4A261] text-[#0D1B2A] shadow-md hover:shadow-lg focus:ring-2 focus:ring-[#F4A261] focus:outline-none transition-all duration-200 disabled:opacity-60"
-            style={{ boxShadow: '0 2px 8px 0 #F4A26133' }}
+    <main className="min-h-screen bg-[linear-gradient(135deg,#ffffff,#f8fafc,#f1f5f9)] overflow-hidden">
+      {/* Hero Section */}
+      <div className="relative">
+        {/* Background Gradient Orbs */}
+        <div className="absolute top-0 left-1/4 w-[800px] h-[800px] bg-gradient-radial from-primary-50 via-primary-50/30 to-transparent -z-10 blur-[100px] opacity-60" />
+        <div className="absolute top-40 right-1/4 w-[600px] h-[600px] bg-gradient-radial from-blue-50 via-blue-50/30 to-transparent -z-10 blur-[100px] opacity-60" />
+        
+        <div className="container mx-auto px-4 pt-20 pb-32">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-center max-w-4xl mx-auto"
           >
-            {status === 'loading' ? 'Joining...' : 'Join Waitlist'}
-          </motion.button>
-        </motion.form>
-        {status === 'success' && (
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="text-[#F4A261] mt-4 text-base font-medium"
-          >
-            Thanks for joining! We will be in touch soon.
-          </motion.p>
-        )}
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 0.5, ease: 'easeOut' }}
-          className="mt-10 text-[#A9B4C2] text-sm sm:text-base"
-        >
-          Coming soon. Be the first to know when we launch.
-        </motion.p>
-      </motion.section>
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ delay: 0.2, duration: 0.8 }}
+              className="mb-6"
+            >
+              <span className="inline-block px-4 py-1.5 bg-gradient-to-r from-primary-50 to-primary-100 rounded-full text-primary-700 text-sm font-medium mb-4 border border-primary-100 shadow-sm">
+                Coming Soon
+              </span>
+            </motion.div>
+
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.8 }}
+              className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-transparent"
+            >
+              Agentic AI Systems for Your Business
+            </motion.h1>
+
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4, duration: 0.8 }}
+              className="text-xl md:text-2xl text-gray-600 mb-12"
+            >
+              Transform your business with purpose-built AI that works.
+              <span className="block mt-2 text-gray-500">Intelligent. Adaptable. Powerful.</span>
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5, duration: 0.8 }}
+              className="max-w-xl mx-auto"
+            >
+              <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-4">
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Enter your work email"
+                  required
+                  className="flex-1 px-6 py-4 rounded-lg bg-white/80 backdrop-blur-sm border border-gray-100 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200 shadow-sm"
+                />
+                <motion.button
+                  type="submit"
+                  disabled={status === 'loading'}
+                  whileHover={{ scale: 1.02, boxShadow: '0 4px 20px rgba(14, 165, 233, 0.15)' }}
+                  whileTap={{ scale: 0.98 }}
+                  className="px-8 py-4 rounded-lg bg-gradient-to-r from-primary-500 to-primary-600 text-white font-semibold shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-all duration-200 disabled:opacity-60"
+                >
+                  {status === 'loading' ? 'Joining...' : 'Join the Waitlist'}
+                </motion.button>
+              </form>
+
+              {status === 'success' && (
+                <motion.p
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="mt-4 text-primary-600 font-medium"
+                >
+                  Thanks for joining! We'll be in touch soon.
+                </motion.p>
+              )}
+            </motion.div>
+
+            {/* Features Preview */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1, duration: 0.8 }}
+              className="mt-24 grid grid-cols-1 md:grid-cols-3 gap-8"
+            >
+              {[
+                {
+                  title: 'Intelligent Automation',
+                  description: 'AI that learns and adapts to your business needs'
+                },
+                {
+                  title: 'Seamless Integration',
+                  description: 'Works with your existing tools and workflows'
+                },
+                {
+                  title: 'Enterprise Ready',
+                  description: 'Built for scale with security and compliance in mind'
+                }
+              ].map((feature, index) => (
+                <div
+                  key={feature.title}
+                  className="p-6 rounded-xl bg-white/60 backdrop-blur-sm border border-gray-50 shadow-sm hover:shadow-md transition-shadow duration-200"
+                >
+                  <h3 className="text-lg font-semibold text-gray-900 mb-2">{feature.title}</h3>
+                  <p className="text-gray-600">{feature.description}</p>
+                </div>
+              ))}
+            </motion.div>
+          </motion.div>
+        </div>
+      </div>
     </main>
   )
 }
