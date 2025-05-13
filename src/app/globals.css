@@ -1,26 +1,30 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --background: #0D1B2A;
+  --foreground: #E0E1DD;
+  --input-bg: #1B263B;
+  --cta: #F4A261;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-inter, Inter, sans-serif);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  letter-spacing: 0.01em;
+}
+
+@layer base {
+  input[type="email"] {
+    @apply text-white placeholder-gray-400 bg-[#1B263B] border-none outline-none rounded-lg px-4 py-3 w-full transition-shadow duration-200;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 2px 16px 0 rgba(13,27,42,0.08);
+  }
+  input[type="email"]:focus {
+    box-shadow: 0 0 0 2px #F4A261, 0 2px 16px 0 rgba(13,27,42,0.12);
+  }
 }
