@@ -38,17 +38,6 @@ export default function Home() {
               transition={{ duration: 0.8 }}
               className="text-center max-w-4xl mx-auto"
             >
-              <motion.div
-                initial={{ scale: 0.95, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ delay: 0.2, duration: 0.8 }}
-                className="mb-6"
-              >
-                <span className="inline-block px-4 py-1.5 bg-white/80 backdrop-blur-sm rounded-full text-blue-600 text-sm font-medium mb-4 border border-blue-100/30 shadow-sm">
-                  Coming Soon
-                </span>
-              </motion.div>
-
               <motion.div className="relative mb-8">
                 <motion.h1
                   initial={{ opacity: 0, y: 20 }}
