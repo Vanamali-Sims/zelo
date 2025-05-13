@@ -14,13 +14,16 @@ export default function Home() {
   }
 
   return (
-    <main className="min-h-screen bg-[linear-gradient(135deg,#ffffff,#f8fafc,#f1f5f9)] overflow-hidden">
-      {/* Hero Section */}
+    <main className="relative min-h-screen bg-gradient-to-b from-[#f1f6ff] to-[#e8f2ff] overflow-hidden">
+      {/* Enhanced background effects */}
+      <div className="absolute inset-0 bg-[linear-gradient(120deg,#e1eeff_0%,transparent_70%)] opacity-70" />
+      <div className="absolute inset-0 bg-[linear-gradient(60deg,#dfeaff_0%,transparent_80%)] opacity-60" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_25%,#c7dbff_0%,transparent_50%)] opacity-40" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_50%,#d4e4ff_0%,transparent_50%)] opacity-40" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_80%,#e5edff_0%,transparent_60%)] opacity-30" />
+      
+      {/* Content */}
       <div className="relative">
-        {/* Background Gradient Orbs */}
-        <div className="absolute top-0 left-1/4 w-[800px] h-[800px] bg-gradient-radial from-primary-50 via-primary-50/30 to-transparent -z-10 blur-[100px] opacity-60" />
-        <div className="absolute top-40 right-1/4 w-[600px] h-[600px] bg-gradient-radial from-blue-50 via-blue-50/30 to-transparent -z-10 blur-[100px] opacity-60" />
-        
         <div className="container mx-auto px-4 pt-20 pb-32">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -34,7 +37,7 @@ export default function Home() {
               transition={{ delay: 0.2, duration: 0.8 }}
               className="mb-6"
             >
-              <span className="inline-block px-4 py-1.5 bg-gradient-to-r from-primary-50 to-primary-100 rounded-full text-primary-700 text-sm font-medium mb-4 border border-primary-100 shadow-sm">
+              <span className="inline-block px-4 py-1.5 bg-white/70 backdrop-blur-sm rounded-full text-blue-600 text-sm font-medium mb-4 border border-blue-100/40 shadow-[0_2px_8px_-2px_rgba(0,112,243,0.08)]">
                 Coming Soon
               </span>
             </motion.div>
@@ -43,7 +46,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.8 }}
-              className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-transparent"
+              className="text-4xl md:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-b from-[#1e293b] to-[#334155]"
             >
               Agentic AI Systems for Your Business
             </motion.h1>
@@ -71,14 +74,14 @@ export default function Home() {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Enter your work email"
                   required
-                  className="flex-1 px-6 py-4 rounded-lg bg-white/80 backdrop-blur-sm border border-gray-100 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200 shadow-sm"
+                  className="flex-1 px-6 py-4 rounded-lg bg-white/80 backdrop-blur-sm text-gray-700 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 border border-blue-100/30"
                 />
                 <motion.button
                   type="submit"
                   disabled={status === 'loading'}
-                  whileHover={{ scale: 1.02, boxShadow: '0 4px 20px rgba(14, 165, 233, 0.15)' }}
+                  whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="px-8 py-4 rounded-lg bg-gradient-to-r from-primary-500 to-primary-600 text-white font-semibold shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-all duration-200 disabled:opacity-60"
+                  className="px-8 py-4 rounded-lg bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold hover:from-blue-600 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 disabled:opacity-60 shadow-[0_2px_10px_-3px_rgba(59,130,246,0.4)]"
                 >
                   {status === 'loading' ? 'Joining...' : 'Join the Waitlist'}
                 </motion.button>
@@ -88,14 +91,13 @@ export default function Home() {
                 <motion.p
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="mt-4 text-primary-600 font-medium"
+                  className="mt-4 text-blue-600 font-medium"
                 >
                   Thanks for joining! We'll be in touch soon.
                 </motion.p>
               )}
             </motion.div>
 
-            {/* Features Preview */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -118,9 +120,9 @@ export default function Home() {
               ].map((feature, index) => (
                 <div
                   key={feature.title}
-                  className="p-6 rounded-xl bg-white/60 backdrop-blur-sm border border-gray-50 shadow-sm hover:shadow-md transition-shadow duration-200"
+                  className="p-6 rounded-xl bg-white/70 backdrop-blur-sm border border-blue-50 transition-all duration-200 hover:bg-white/80 hover:shadow-lg hover:shadow-blue-100/30 group"
                 >
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">{feature.title}</h3>
+                  <h3 className="text-lg font-semibold text-gray-800 mb-2 group-hover:text-blue-900 transition-colors duration-200">{feature.title}</h3>
                   <p className="text-gray-600">{feature.description}</p>
                 </div>
               ))}
