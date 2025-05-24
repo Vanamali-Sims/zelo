@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { useState } from 'react'
+import Link from 'next/link'
 
 export default function Home() {
   const [email, setEmail] = useState('')
@@ -14,139 +15,234 @@ export default function Home() {
   }
 
   return (
-    <main className="relative min-h-screen bg-gradient-to-br from-[#f6faff] to-[#dbeafe] overflow-hidden">
-      {/* Enhanced background effects */}
-      <div className="absolute inset-0 bg-[linear-gradient(120deg,#ffffff_0%,transparent_70%)] opacity-40" />
-      <div className="absolute inset-0 bg-[linear-gradient(60deg,#f0f5ff_0%,transparent_80%)] opacity-30" />
-      
-      {/* Wave divider */}
-      <div className="absolute left-0 right-0 top-[85vh] h-24 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-white/10 backdrop-blur-[1px]" />
-        <svg className="absolute bottom-0 w-full h-full" viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M0 120L60 110C120 100 240 80 360 70C480 60 600 60 720 65C840 70 960 80 1080 85C1200 90 1320 90 1380 90L1440 90V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0V120Z" 
-                fill="white" fillOpacity="0.1"/>
-        </svg>
-      </div>
+    <main className="relative min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-100 overflow-x-hidden">
+      {/* Sticky Navigation */}
+      <nav className="sticky top-4 z-50 mx-auto max-w-5xl px-4">
+        <div className="flex items-center justify-between rounded-full border border-white/20 bg-white/30 px-6 py-3 backdrop-blur-md shadow-sm">
+          <Link href="/" className="text-lg font-semibold text-gray-800">
+            Zelo
+          </Link>
+          <div className="hidden md:flex items-center space-x-8">
+            <Link href="#agents" className="text-gray-600 hover:text-gray-900 transition">Agents</Link>
+            <Link href="#consulting" className="text-gray-600 hover:text-gray-900 transition">Consulting</Link>
+            <Link href="#about" className="text-gray-600 hover:text-gray-900 transition">About</Link>
+            <Link href="#contact" className="text-gray-600 hover:text-gray-900 transition">Contact</Link>
+          </div>
+        </div>
+      </nav>
 
-      {/* Main content */}
-      <div className="relative container mx-auto px-4">
-        <div className="max-w-5xl mx-auto py-20">
-          <div className="rounded-2xl bg-white/70 backdrop-blur-sm shadow-xl border border-white/60 px-8 py-12 sm:px-12">
+      {/* Background Effects */}
+      <div className="absolute inset-0 bg-[linear-gradient(120deg,#e0e7ff_0%,transparent_70%)] opacity-40" />
+      <div className="absolute inset-0 bg-[linear-gradient(60deg,#dbeafe_0%,transparent_80%)] opacity-30" />
+
+      {/* Hero Section */}
+      <section className="relative py-20">
+        <div className="max-w-4xl mx-auto px-4 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.8 }}
+              className="text-4xl md:text-6xl font-bold text-[#1a2b3b] tracking-tight"
+            >
+              <span className="inline-block">
+                <span className="inline-block bg-gradient-to-r from-[#1a2b3b] via-[#1a2b3b] to-blue-600 bg-clip-text text-transparent">
+                  Zelo
+                </span>
+              </span>
+              <br />
+              <span className="inline-block mt-1">for Your Business</span>
+            </motion.h1>
+
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4, duration: 0.8 }}
+              className="text-xl md:text-2xl text-gray-600 mt-6 mb-12"
+            >
+              Helping small businesses leverage the power of new technology
+              <span className="block mt-2 text-gray-500">Intelligent. Adaptable. Powerful.</span>
+            </motion.p>
+
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              className="text-center max-w-4xl mx-auto"
+              transition={{ delay: 0.5, duration: 0.8 }}
+              className="max-w-xl mx-auto"
             >
-              <motion.div className="relative mb-8">
-                <motion.h1
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3, duration: 0.8 }}
-                  className="text-4xl md:text-6xl font-bold text-[#1a2b3b] tracking-tight relative z-10"
+              <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-4">
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Enter your work email"
+                  required
+                  className="flex-1 px-6 py-4 rounded-xl bg-white text-gray-700 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 border border-gray-200 shadow-sm"
+                />
+                <motion.button
+                  type="submit"
+                  disabled={status === 'loading'}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="px-8 py-4 rounded-xl bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold hover:from-blue-600 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 disabled:opacity-60 shadow-md"
                 >
-                  <span className="inline-block">
-                    <span className="inline-block bg-gradient-to-r from-[#1a2b3b] via-[#1a2b3b] to-blue-600 bg-clip-text text-transparent">
-                      Zelo
-                    </span>
-                  </span>
-                  <br />
-                  <span className="inline-block mt-1">for Your Business</span>
-                </motion.h1>
-              </motion.div>
+                  {status === 'loading' ? 'Joining...' : 'Join the Waitlist'}
+                </motion.button>
+              </form>
 
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4, duration: 0.8 }}
-                className="text-xl md:text-2xl text-gray-600 mb-12"
-              >
-                Helping small businesses leverage the power of new technology
-                <span className="block mt-2 text-gray-500">Intelligent. Adaptable. Powerful.</span>
-              </motion.p>
-
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5, duration: 0.8 }}
-                className="max-w-xl mx-auto"
-              >
-                <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-4">
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Enter your work email"
-                    required
-                    className="flex-1 px-6 py-4 rounded-lg bg-white/90 text-gray-700 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 border border-gray-200 shadow-sm"
-                  />
-                  <motion.button
-                    type="submit"
-                    disabled={status === 'loading'}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="px-8 py-4 rounded-lg bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold hover:from-blue-600 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 disabled:opacity-60 shadow-md"
-                  >
-                    {status === 'loading' ? 'Joining...' : 'Join the Waitlist'}
-                  </motion.button>
-                </form>
-
-                {status === 'success' && (
-                  <motion.p
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="mt-4 text-blue-600 font-medium"
-                  >
-                    Thanks for joining! We'll be in touch soon.
-                  </motion.p>
-                )}
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1, duration: 0.8 }}
-                className="mt-24 grid grid-cols-1 md:grid-cols-3 gap-8"
-              >
-                {[
-                  {
-                    title: 'Intelligent Automation',
-                    description: 'AI that learns and adapts to your business needs'
-                  },
-                  {
-                    title: 'Seamless Integration',
-                    description: 'Works with your existing tools and workflows'
-                  },
-                  {
-                    title: 'Enterprise Ready',
-                    description: 'Built for scale with security and compliance in mind'
-                  }
-                ].map((feature, index) => (
-                  <motion.div
-                    key={feature.title}
-                    whileHover={{ 
-                      scale: 1.03,
-                      y: -5,
-                      transition: { type: "spring", stiffness: 400, damping: 25 }
-                    }}
-                    className="group relative p-6 rounded-xl bg-gradient-to-b from-white/90 to-white/60 backdrop-blur-sm border border-white/60 shadow-md hover:shadow-lg transition-all duration-300"
-                  >
-                    <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-blue-50/0 via-blue-50/0 to-blue-100/0 opacity-0 group-hover:opacity-100 transition-all duration-300" />
-                    <div className="relative">
-                      <h3 className="text-lg font-semibold text-gray-800 mb-2 group-hover:text-blue-800 transition-colors duration-300">
-                        {feature.title}
-                      </h3>
-                      <p className="text-gray-600 group-hover:text-gray-700 transition-colors duration-300">
-                        {feature.description}
-                      </p>
-                    </div>
-                  </motion.div>
-                ))}
-              </motion.div>
+              {status === 'success' && (
+                <motion.p
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="mt-4 text-blue-600 font-medium"
+                >
+                  Thanks for joining! We'll be in touch soon.
+                </motion.p>
+              )}
             </motion.div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Agents Section */}
+      <section id="agents" className="py-20 bg-white">
+        <div className="max-w-6xl mx-auto px-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-12">Prebuilt AI Agents That Just Work</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              {
+                title: 'Rostering Agent',
+                description: 'Automate employee scheduling and shift management with AI-powered optimization'
+              },
+              {
+                title: 'Onboarding Agent',
+                description: 'Streamline new employee onboarding with intelligent process automation'
+              },
+              {
+                title: 'Marketing Agent',
+                description: 'Generate and optimize marketing content across multiple channels'
+              }
+            ].map((agent) => (
+              <motion.div
+                key={agent.title}
+                whileHover={{ scale: 1.02 }}
+                className="p-8 rounded-2xl bg-gradient-to-br from-blue-50 to-white border border-blue-100 shadow-lg hover:shadow-xl transition duration-300"
+              >
+                <h3 className="text-xl font-semibold mb-4 text-gray-900">{agent.title}</h3>
+                <p className="text-gray-700 leading-relaxed">{agent.description}</p>
+              </motion.div>
+            ))}
           </div>
         </div>
-      </div>
+      </section>
+
+      {/* Consulting Section */}
+      <section id="consulting" className="py-20 bg-gray-50">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div>
+              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-gray-900">Custom AI Built for Your Business</h2>
+              <ul className="space-y-6">
+                <li className="flex items-start">
+                  <span className="text-blue-600 mr-4 text-xl font-bold">•</span>
+                  <span className="text-gray-700 text-lg">Dojo grading systems with AI-powered assessment</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-blue-600 mr-4 text-xl font-bold">•</span>
+                  <span className="text-gray-700 text-lg">Analytics agents for business intelligence</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-blue-600 mr-4 text-xl font-bold">•</span>
+                  <span className="text-gray-700 text-lg">Custom workflow automation solutions</span>
+                </li>
+              </ul>
+            </div>
+            <div className="bg-white rounded-2xl p-8 shadow-xl border border-gray-100">
+              <div className="aspect-square rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center">
+                <span className="text-white text-4xl font-bold">AI</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* About Section */}
+      <section id="about" className="py-20 bg-white">
+        <div className="max-w-4xl mx-auto px-4 text-center">
+          <h2 className="text-3xl md:text-4xl font-bold mb-8 text-gray-900">About Zelo</h2>
+          <p className="text-xl text-gray-700 mb-12 leading-relaxed">
+            Zelo is on a mission to make powerful AI tools accessible to small and medium enterprises. 
+            As a solo-founded venture, we focus on delivering lean, secure, and effective AI solutions 
+            that drive real business value.
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
+            {['Adaptability', 'Automation', 'Affordability'].map((value) => (
+              <div key={value} className="p-8 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                <h3 className="text-2xl font-semibold">{value}</h3>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section id="contact" className="py-20 bg-gray-50">
+        <div className="max-w-xl mx-auto px-4 text-center">
+          <h2 className="text-3xl md:text-4xl font-bold mb-8 text-gray-900">Get Started</h2>
+          <p className="text-xl text-gray-700 mb-12 leading-relaxed">
+            Join our waitlist or reach out directly to learn more about how Zelo can help your business.
+          </p>
+          <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-4 mb-8">
+            <input
+              type="email"
+              placeholder="Enter your work email"
+              className="flex-1 px-6 py-4 rounded-xl bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 border border-gray-300 shadow-sm text-lg"
+            />
+            <button
+              type="submit"
+              className="px-8 py-4 rounded-xl bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold hover:from-blue-600 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 shadow-md text-lg"
+            >
+              Join Waitlist
+            </button>
+          </form>
+          <div className="flex justify-center space-x-6">
+            <a href="#" className="text-blue-600 hover:text-blue-800 transition font-medium">LinkedIn</a>
+            <a href="#" className="text-blue-600 hover:text-blue-800 transition font-medium">WhatsApp</a>
+            <a href="#" className="text-blue-600 hover:text-blue-800 transition font-medium">Calendly</a>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-slate-900 text-white py-8">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div>
+              <div className="text-xl font-semibold mb-2">Zelo</div>
+              <p className="text-slate-400">© 2024 Zelo. All rights reserved.</p>
+            </div>
+            <div className="space-y-2">
+              <Link href="#" className="block text-slate-400 hover:text-white transition">Privacy Policy</Link>
+              <Link href="#" className="block text-slate-400 hover:text-white transition">Terms of Service</Link>
+              <Link href="#" className="block text-slate-400 hover:text-white transition">Contact</Link>
+            </div>
+            <div className="space-y-2">
+              <a href="#" className="block text-slate-400 hover:text-white transition">LinkedIn</a>
+              <a href="#" className="block text-slate-400 hover:text-white transition">GitHub</a>
+            </div>
+          </div>
+        </div>
+      </footer>
+
+      <style jsx global>{`
+        html {
+          scroll-behavior: smooth;
+        }
+      `}</style>
     </main>
   )
 }
