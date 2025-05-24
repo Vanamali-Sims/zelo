@@ -15,25 +15,25 @@ export default function Home() {
   }
 
   return (
-    <main className="relative min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-100 overflow-x-hidden">
+    <main className="relative min-h-screen bg-gradient-to-br from-blue-100 via-blue-50 to-indigo-100 overflow-x-hidden">
       {/* Sticky Navigation */}
       <nav className="sticky top-4 z-50 mx-auto max-w-5xl px-4">
-        <div className="flex items-center justify-between rounded-full border border-white/20 bg-white/30 px-6 py-3 backdrop-blur-md shadow-sm">
+        <div className="flex items-center justify-between rounded-full border border-white/40 bg-white/80 px-6 py-3 backdrop-blur-md shadow-lg">
           <Link href="/" className="text-lg font-semibold text-gray-800">
             Zelo
           </Link>
           <div className="hidden md:flex items-center space-x-8">
-            <Link href="#agents" className="text-gray-600 hover:text-gray-900 transition">Agents</Link>
-            <Link href="#consulting" className="text-gray-600 hover:text-gray-900 transition">Consulting</Link>
-            <Link href="#about" className="text-gray-600 hover:text-gray-900 transition">About</Link>
-            <Link href="#contact" className="text-gray-600 hover:text-gray-900 transition">Contact</Link>
+            <Link href="#agents" className="text-gray-700 hover:text-gray-900 transition">Agents</Link>
+            <Link href="#consulting" className="text-gray-700 hover:text-gray-900 transition">Consulting</Link>
+            <Link href="#about" className="text-gray-700 hover:text-gray-900 transition">About</Link>
+            <Link href="#contact" className="text-gray-700 hover:text-gray-900 transition">Contact</Link>
           </div>
         </div>
       </nav>
 
       {/* Background Effects */}
-      <div className="absolute inset-0 bg-[linear-gradient(120deg,#e0e7ff_0%,transparent_70%)] opacity-40" />
-      <div className="absolute inset-0 bg-[linear-gradient(60deg,#dbeafe_0%,transparent_80%)] opacity-30" />
+      <div className="absolute inset-0 bg-[linear-gradient(120deg,#dbeafe_0%,transparent_70%)] opacity-50" />
+      <div className="absolute inset-0 bg-[linear-gradient(60deg,#bfdbfe_0%,transparent_80%)] opacity-40" />
 
       {/* Hero Section */}
       <section className="relative py-20">
