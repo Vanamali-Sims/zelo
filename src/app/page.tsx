@@ -11,7 +11,7 @@ export default function Home() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setStatus('loading')
-    setTimeout(() => setStatus('success'), 1000)
+    setTimeout(() => setStatus('success'), 1000) 
   }
 
   return (
