@@ -100,7 +100,7 @@ export default function Home() {
                   animate={{ opacity: 1, y: 0 }}
                   className="mt-4 text-blue-600 font-medium"
                 >
-                  Thanks for joining! We'll be in touch soon.
+                  Thanks for joining! We&apos;ll be in touch soon.
                 </motion.p>
               )}
             </motion.div>
