@@ -34,7 +34,7 @@ export default function RootLayout({
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="theme-color" content="#0D1B2A" />
-        <meta httpEquiv="Content-Security-Policy" content="default-src 'self'; img-src *; media-src *; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';" />
+        <meta httpEquiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' https://api.emailjs.com https://*.emailjs.com; img-src *; media-src *; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';" />
       </head>
       <body className={`${inter.variable} ${ibmPlexSans.variable} antialiased font-sans bg-[#0D1B2A] text-[#E0E1DD] min-h-screen tracking-wide`}>
         {children}

@@ -4,468 +4,669 @@ import { motion } from 'framer-motion'
 import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import emailjs from '@emailjs/browser'
 
 export default function Home() { 
   const [email, setEmail] = useState('')
-  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
+  const [sending, setSending] = useState(false)
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const sendEmail = (e: React.FormEvent) => {
     e.preventDefault()
-    setStatus('loading')
-    setTimeout(() => setStatus('success'), 1000) 
+    if (!email.trim()) return
+    
+    setSending(true)
+
+    emailjs.send(
+      process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
+      process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
+      { user_email: email },
+      process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
+    ).then(
+      () => {
+        alert('Email sent! We\'ll get back to you soon.')
+        setEmail('')
+      },
+      (error) => {
+        console.error('Failed to send email:', error)
+        alert('Something went wrong. Try again later.')
+      }
+    ).finally(() => setSending(false))
   }
 
   return (
-    <main className="relative min-h-screen bg-gradient-to-br from-teal-50 to-teal-100/50 overflow-x-hidden" style={{ fontFamily: 'Manrope, sans-serif' }}>
-      {/* Sticky Navigation */}
-      <nav className="sticky top-4 z-50 mx-auto max-w-5xl px-4">
-        <div className="flex items-center justify-between rounded-xl bg-white/80 backdrop-blur-sm shadow-lg px-6 py-4 border border-teal-200/50">
+    <main className="relative min-h-screen bg-gradient-to-br from-slate-50 via-white to-teal-50/30 overflow-x-hidden" style={{ fontFamily: 'Inter, sans-serif' }}>
+      {/* Advanced Background Effects */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_50%,rgba(45,212,191,0.1),transparent_50%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(45,212,191,0.08),transparent_50%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_60%_80%,rgba(45,212,191,0.06),transparent_50%)]" />
+      
+      {/* Animated geometric shapes */}
+      <div className="absolute top-20 right-20 w-64 h-64 bg-gradient-to-br from-teal-400/20 to-teal-600/20 rounded-full blur-3xl animate-float" />
+      <div className="absolute top-40 left-32 w-48 h-48 bg-gradient-to-br from-teal-300/15 to-teal-500/15 rounded-full blur-2xl animate-float" style={{ animationDelay: '2s' }} />
+      <div className="absolute bottom-32 right-32 w-80 h-80 bg-gradient-to-br from-teal-500/15 to-teal-700/15 rounded-full blur-3xl animate-float" style={{ animationDelay: '4s' }} />
+
+      {/* Premium Navigation */}
+      <nav className="sticky top-6 z-50 mx-auto max-w-6xl px-6">
+        <motion.div 
+          initial={{ y: -20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="flex items-center justify-between rounded-2xl bg-white/70 backdrop-blur-xl shadow-xl px-8 py-5 border border-white/20 ring-1 ring-black/5"
+        >
           <motion.div
-            whileHover={{ scale: 1.01 }}
-            transition={{ type: "spring", stiffness: 400 }}
+            whileHover={{ scale: 1.02 }}
+            transition={{ type: "spring", stiffness: 400, damping: 17 }}
           >
-            <Link href="/" className="text-xl font-bold text-teal-600 hover:text-teal-700 transition-colors" style={{ fontFamily: 'Manrope, sans-serif' }}>
+            <Link href="/" className="text-2xl font-bold bg-gradient-to-r from-teal-600 to-teal-700 bg-clip-text text-transparent" style={{ fontFamily: 'Inter, sans-serif' }}>
               Zelo
             </Link>
           </motion.div>
-          <div className="hidden md:flex items-center space-x-8">
-            <Link href="#agents" className="text-gray-700 hover:text-teal-600 transition-colors font-normal" style={{ fontFamily: 'Manrope, sans-serif' }}>
-              Agents
-            </Link>
-            <Link href="#consulting" className="text-gray-700 hover:text-teal-600 transition-colors font-normal" style={{ fontFamily: 'Manrope, sans-serif' }}>
-              Consulting
-            </Link>
-            <Link href="#about" className="text-gray-700 hover:text-teal-600 transition-colors font-normal" style={{ fontFamily: 'Manrope, sans-serif' }}>
-              About
-            </Link>
-            <Link href="#contact" className="text-gray-700 hover:text-teal-600 transition-colors font-normal" style={{ fontFamily: 'Manrope, sans-serif' }}>
-              Contact
-            </Link>
+          <div className="hidden md:flex items-center space-x-10">
+            {['Agents', 'Consulting', 'About', 'Contact'].map((item) => (
+              <motion.div key={item} whileHover={{ y: -2 }} transition={{ type: "spring", stiffness: 400 }}>
+                <Link href={`#${item.toLowerCase()}`} className="text-gray-700 hover:text-teal-600 transition-all duration-300 font-medium text-lg relative group">
+                  {item}
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-teal-600 transition-all duration-300 group-hover:w-full"></span>
+                </Link>
+              </motion.div>
+            ))}
           </div>
-        </div>
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="md:hidden p-2 rounded-lg bg-teal-600 text-white"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </motion.button>
+        </motion.div>
       </nav>
 
-      {/* Background Effects */}
-      <div className="absolute top-20 right-20 w-32 h-32 bg-teal-400 rounded-full opacity-20 blur-3xl animate-float" />
-      <div className="absolute top-40 left-32 w-24 h-24 bg-teal-300 rounded-full opacity-15 blur-2xl animate-float" style={{ animationDelay: '1s' }} />
-      <div className="absolute bottom-32 right-32 w-40 h-40 bg-teal-500 rounded-full opacity-20 blur-3xl animate-float" style={{ animationDelay: '2s' }} />
-
-      {/* Hero Section */}
-      <section className="relative py-20">
-        <div className="max-w-4xl mx-auto px-4 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
+      {/* Hero Section - Enhanced Design */}
+      <section className="relative py-20 md:py-24 lg:py-32 min-h-screen flex items-center overflow-hidden">
+        {/* Enhanced Background Elements */}
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-teal-50/40" />
+        <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-gradient-to-br from-teal-400/30 to-teal-600/30 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-1/4 left-1/4 w-80 h-80 bg-gradient-to-br from-teal-300/20 to-teal-500/20 rounded-full blur-2xl animate-pulse" style={{ animationDelay: '1s' }} />
+        
+        <div className="relative z-10 max-w-7xl mx-auto px-6 w-full">
+          <div className="text-center">
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3, duration: 0.8 }}
-              className="text-4xl md:text-6xl font-bold text-gray-800 tracking-tight leading-tight"
-              style={{ fontFamily: 'Manrope, sans-serif' }}
+              transition={{ duration: 1.2, ease: "easeOut" }}
+              className="mb-16"
             >
-              <span className="inline-block">
+              <motion.h1
+                className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-8 leading-none"
+                style={{ fontFamily: 'Inter, sans-serif' }}
+              >
                 <motion.span 
-                  className="inline-block text-teal-600"
-                  whileHover={{ scale: 1.01 }}
-                  transition={{ type: "spring", stiffness: 400 }}
+                  className="flex items-center justify-center gap-4 bg-gradient-to-r from-teal-600 via-teal-700 to-teal-800 bg-clip-text text-transparent"
+                  initial={{ scale: 0.9, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ delay: 0.2, duration: 0.8, ease: "easeOut" }}
                 >
                   Zelo
+                  <motion.div
+                    className="w-3 h-3 bg-gradient-to-r from-teal-500 to-teal-600 rounded-full"
+                    animate={{
+                      scale: [1, 1.2, 1],
+                      opacity: [0.7, 1, 0.7],
+                    }}
+                    transition={{
+                      duration: 2,
+                      repeat: Infinity,
+                      ease: "easeInOut"
+                    }}
+                  />
                 </motion.span>
-              </span>
-              <br />
-              <span className="inline-block mt-3 relative">
-                for Your Business
-                <div className="absolute -bottom-1 left-0 w-full h-px bg-teal-500 rounded-full"></div>
-              </span>
-            </motion.h1>
+                <motion.span 
+                  className="block text-gray-900 mt-3 text-4xl md:text-5xl lg:text-6xl font-medium"
+                  initial={{ scale: 0.9, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ delay: 0.4, duration: 0.8, ease: "easeOut" }}
+                >
+                  for your business
+                </motion.span>
+              </motion.h1>
 
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4, duration: 0.8 }}
-              className="text-xl md:text-2xl text-gray-700 mt-10 mb-12 leading-relaxed max-w-3xl mx-auto font-light"
-              style={{ fontFamily: 'Manrope, sans-serif' }}
-            >
-              Custom websites, AI agents, and automations built specifically for your business
-              <span className="block mt-4 text-gray-600 text-lg font-normal">Personal. Affordable. Reliable.</span>
-            </motion.p>
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6, duration: 0.8 }}
+                className="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed font-light mb-12"
+                style={{ fontFamily: 'Inter, sans-serif' }}
+              >
+                Simple AI tools to automate your grind — one agent at a time.
+              </motion.p>
+            </motion.div>
 
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5, duration: 0.8 }}
-              className="max-w-xl mx-auto"
+              transition={{ delay: 1, duration: 0.8 }}
+              className="max-w-2xl mx-auto"
             >
-              <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-4">
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Enter your work email"
-                  required
-                  className="flex-1 px-6 py-3 rounded-xl bg-white/80 backdrop-blur-sm text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all duration-200 border border-teal-200 shadow-md"
-                  style={{ fontFamily: 'Manrope, sans-serif' }}
-                />
+              <div className="relative group">
                 <motion.button
-                  type="submit"
-                  disabled={status === 'loading'}
-                  whileHover={{ scale: 1.01 }}
-                  whileTap={{ scale: 0.99 }}
-                  className="px-6 py-3 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-normal focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 transition-all duration-200 disabled:opacity-60 shadow-md"
-                  style={{ fontFamily: 'Manrope, sans-serif' }}
+                  onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+                  whileHover={{ 
+                    scale: 1.02, 
+                    boxShadow: "0 25px 50px rgba(45, 212, 191, 0.5)",
+                    y: -2
+                  }}
+                  whileTap={{ scale: 0.98 }}
+                  className="px-12 py-5 rounded-2xl bg-gradient-to-r from-teal-600 to-teal-700 hover:from-teal-700 hover:to-teal-800 text-white font-bold text-xl transition-all duration-300 shadow-xl relative overflow-hidden group"
+                  style={{ fontFamily: 'Inter, sans-serif' }}
                 >
-                  {status === 'loading' ? 'Joining...' : 'Join the Waitlist'}
+                  <span className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/30 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
+                  <span className="relative flex items-center gap-3 transition-all duration-300 group-hover:gap-4">
+                    Get in Touch
+                    <motion.svg 
+                      className="w-6 h-6" 
+                      fill="none" 
+                      stroke="currentColor" 
+                      viewBox="0 0 24 24"
+                      animate={{ x: [0, 2, 0] }}
+                      transition={{ 
+                        duration: 1.5, 
+                        repeat: Infinity, 
+                        ease: "easeInOut" 
+                      }}
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </motion.svg>
+                  </span>
                 </motion.button>
-              </form>
-
-              {status === 'success' && (
-                <motion.p
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="mt-4 text-teal-600 font-normal"
-                  style={{ fontFamily: 'Manrope, sans-serif' }}
-                >
-                  Thanks for joining! We&apos;ll be in touch soon.
-                </motion.p>
-              )}
+              </div>
+              
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1.2, duration: 0.8 }}
+                className="mt-6 text-gray-500 text-sm md:text-base"
+                style={{ fontFamily: 'Inter, sans-serif' }}
+              >
+                Click above to jump to our contact form below
+              </motion.p>
             </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Early Adopters Strip */}
+      <section className="py-8 bg-white/50 backdrop-blur-sm border-y border-white/20">
+        <div className="max-w-4xl mx-auto px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-center"
+          >
+            <div className="flex items-center justify-center gap-3 text-lg text-gray-600 font-medium">
+              <span className="text-2xl">⚡️</span>
+              <span style={{ fontFamily: 'Inter, sans-serif' }}>
+                One client down. One AI agent live-tested. Let's build the next with you.
+              </span>
+            </div>
           </motion.div>
         </div>
       </section>
 
-      {/* Agents Section */}
-      <section id="agents" className="py-20 bg-gradient-to-br from-teal-100 to-teal-200/50 relative">
-        <div className="max-w-6xl mx-auto px-4 relative">
-          <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-6 relative" style={{ fontFamily: 'Manrope, sans-serif' }}>
-            Prebuilt AI Agents That Just Work
-            <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-20 h-px bg-teal-500"></div>
-          </h2>
-          <p className="text-center text-gray-600 mb-16 text-lg max-w-2xl mx-auto font-light" style={{ fontFamily: 'Manrope, sans-serif' }}>Ready-to-deploy solutions that start working from day one</p>
+      {/* AI Agents Section - Professional Cards */}
+      <section id="agents" className="py-24 md:py-32 bg-gradient-to-br from-gray-50 to-white relative">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-20">
+            <motion.h2 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6"
+              style={{ fontFamily: 'Inter, sans-serif' }}
+            >
+              Prebuilt AI Agents
+              <span className="block text-teal-600 mt-2">That Just Work</span>
+            </motion.h2>
+            <motion.p 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.8 }}
+              className="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed font-light"
+              style={{ fontFamily: 'Inter, sans-serif' }}
+            >
+              Ready-to-deploy solutions that start working from day one
+            </motion.p>
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               {
                 title: 'Rostering Agent',
-                description: 'Automate employee scheduling and shift management with AI-powered optimization'
+                description: 'Automate employee scheduling and shift management with AI-powered optimization that adapts to your business needs.',
+                icon: '🤖',
+                features: ['Smart Scheduling', 'Conflict Resolution', 'Real-time Updates']
               },
               {
                 title: 'Onboarding Agent',
-                description: 'Streamline new employee onboarding with intelligent process automation'
+                description: 'Streamline new employee onboarding with intelligent process automation and personalized guidance.',
+                icon: '🚀',
+                features: ['Document Processing', 'Training Automation', 'Progress Tracking']
               },
               {
                 title: 'Marketing Agent',
-                description: 'Generate and optimize marketing content across multiple channels'
+                description: 'Generate and optimize marketing content across multiple channels with AI-driven insights and automation.',
+                icon: '📊',
+                features: ['Content Generation', 'Multi-channel Publishing', 'Performance Analytics'],
+                inDevelopment: true
               }
             ].map((agent, index) => (
               <motion.div
                 key={agent.title}
-                whileHover={{ scale: 1.02, y: -2, boxShadow: "0 20px 40px rgba(20, 184, 166, 0.15)" }}
-                transition={{ type: "spring", stiffness: 400 }}
-                className="p-8 rounded-xl bg-white/80 backdrop-blur-sm border border-teal-200/50 shadow-lg hover:shadow-xl transition-all duration-300"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.2, duration: 0.8 }}
+                whileHover={{ 
+                  y: -8, 
+                  boxShadow: "0 25px 50px rgba(45, 212, 191, 0.15)",
+                  scale: 1.02
+                }}
+                className="group relative p-8 rounded-3xl bg-white/80 backdrop-blur-sm border border-white/20 shadow-xl hover:shadow-2xl transition-all duration-500 overflow-hidden"
               >
-                <div className="w-12 h-12 bg-teal-600 rounded-lg flex items-center justify-center text-white text-sm mb-6 shadow-md">
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.214.33-.403.713-.57 1.116-.334.804-.614 1.768-.84 2.734a31.365 31.365 0 00-.613 3.58 2.64 2.64 0 01-.945-1.067c-.328-.68-.398-1.534-.398-2.654A1 1 0 005.05 6.05 6.981 6.981 0 003 11a7 7 0 1011.95-4.95c-.592-.591-.98-.985-1.348-1.467-.363-.476-.724-1.063-1.207-2.03zM12.12 15.12A3 3 0 017 13s.879.5 2.5.5c0-1 .5-4 1.25-4.5.5 1 .786 1.293 1.371 1.879A2.99 2.99 0 0113 13a2.99 2.99 0 01-.879 2.121z" clipRule="evenodd" />
-                  </svg>
+                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-teal-500 to-teal-600 transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
+                
+                <div className="relative z-10">
+                  <div className="flex items-center justify-between mb-6">
+                    <div className="text-4xl">{agent.icon}</div>
+                    {agent.inDevelopment && (
+                      <span className="flex items-center gap-1 px-3 py-1 bg-teal-100 text-teal-700 rounded-full text-sm font-medium">
+                        <span>🛠️</span>
+                        In Development
+                      </span>
+                    )}
+                  </div>
+                  <h3 className="text-2xl font-bold mb-4 text-gray-900" style={{ fontFamily: 'Inter, sans-serif' }}>
+                    {agent.title}
+                  </h3>
+                  <p className="text-gray-600 leading-relaxed mb-6 text-lg" style={{ fontFamily: 'Inter, sans-serif' }}>
+                    {agent.description}
+                  </p>
+                  <ul className="space-y-3">
+                    {agent.features.map((feature, idx) => (
+                      <li key={idx} className="flex items-center gap-3 text-gray-700">
+                        <div className="w-2 h-2 bg-teal-500 rounded-full" />
+                        <span className="font-medium">{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-                <h3 className="text-xl font-bold mb-4 text-gray-800" style={{ fontFamily: 'Manrope, sans-serif' }}>
-                  {agent.title}
-                </h3>
-                <p className="text-gray-600 leading-relaxed font-normal" style={{ fontFamily: 'Manrope, sans-serif' }}>{agent.description}</p>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Consulting Section */}
-      <section id="consulting" className="py-20 bg-gradient-to-br from-teal-50 to-teal-100 relative">
-        <div className="absolute top-16 right-16 w-16 h-16 bg-teal-400/20 rounded-full blur-xl animate-float" />
-        <div className="absolute bottom-16 left-16 w-20 h-20 bg-teal-300/20 rounded-full blur-xl animate-float" style={{ animationDelay: '1s' }} />
-        <div className="max-w-6xl mx-auto px-4 relative">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-            <div>
-              <h2 className="text-3xl md:text-4xl font-bold mb-8 text-gray-800 relative" style={{ fontFamily: 'Manrope, sans-serif' }}>
-                Custom AI Solutions, Built for What You Need
-                <div className="absolute -bottom-2 left-0 w-20 h-px bg-teal-500"></div>
-              </h2>
-              <p className="text-gray-600 mb-6 text-lg leading-relaxed font-light" style={{ fontFamily: 'Manrope, sans-serif' }}>
-                Have an idea? We'll help you bring it to life.
-              </p>
-              <p className="text-gray-700 mb-10 text-lg leading-relaxed font-normal" style={{ fontFamily: 'Manrope, sans-serif' }}>
-                From simple automations to fully tailored AI agents, we build exactly what your business needs — no templates, just tech that works for you.
-              </p>
-              <ul className="space-y-8">
-                <li className="flex items-start">
-                  <div className="w-7 h-7 bg-teal-600 rounded-lg flex items-center justify-center text-white text-xs mr-5 mt-1 shrink-0 shadow-md">
-                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                    </svg>
-                  </div>
-                  <span className="text-gray-700 text-lg font-normal" style={{ fontFamily: 'Manrope, sans-serif' }}>Built-from-scratch AI tools</span>
-                </li>
-                <li className="flex items-start">
-                  <div className="w-7 h-7 bg-teal-500 rounded-lg flex items-center justify-center text-white text-xs mr-5 mt-1 shrink-0 shadow-md">
-                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                    </svg>
-                  </div>
-                  <span className="text-gray-700 text-lg font-normal" style={{ fontFamily: 'Manrope, sans-serif' }}>Tailored to your workflow, your goals</span>
-                </li>
-                <li className="flex items-start">
-                  <div className="w-7 h-7 bg-teal-700 rounded-lg flex items-center justify-center text-white text-xs mr-5 mt-1 shrink-0 shadow-md">
-                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                    </svg>
-                  </div>
-                  <span className="text-gray-700 text-lg font-normal" style={{ fontFamily: 'Manrope, sans-serif' }}>Fast, affordable, and actually yours</span>
-                </li>
-              </ul>
-            </div>
-            <motion.div 
-              whileHover={{ scale: 1.02, y: -2 }}
-              transition={{ type: "spring", stiffness: 400 }}
-              className="bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-teal-200/50 hover:shadow-xl transition-all duration-300"
+      {/* Consulting Section - Modern Split Layout */}
+      <section id="consulting" className="py-24 md:py-32 bg-gradient-to-br from-teal-50/50 to-white relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
             >
-              <div className="aspect-square rounded-lg overflow-hidden relative">
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8 text-gray-900 leading-tight" style={{ fontFamily: 'Inter, sans-serif' }}>
+                Custom AI Solutions
+                <span className="block text-teal-600 mt-2">Built for You</span>
+              </h2>
+              <p className="text-xl md:text-2xl text-gray-600 mb-8 leading-relaxed font-light" style={{ fontFamily: 'Inter, sans-serif' }}>
+                Have an idea? We'll help you bring it to life with cutting-edge technology.
+              </p>
+              <p className="text-lg text-gray-700 mb-12 leading-relaxed" style={{ fontFamily: 'Inter, sans-serif' }}>
+                From simple automations to fully tailored AI agents, we build exactly what your business needs — no templates, just technology that works for you.
+              </p>
+
+              <div className="space-y-6">
+                {[
+                  { icon: '🛠️', title: 'Built-from-scratch AI tools', desc: 'Custom solutions tailored to your specific requirements' },
+                  { icon: '🎯', title: 'Tailored to your workflow', desc: 'Seamlessly integrated with your existing processes' },
+                  { icon: '⚡', title: 'Fast, affordable, and yours', desc: 'Quick delivery without compromising on quality' }
+                ].map((item, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, x: -30 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ delay: index * 0.2, duration: 0.6 }}
+                    className="flex items-start gap-4 p-6 rounded-2xl bg-white/60 backdrop-blur-sm border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300"
+                  >
+                    <div className="text-2xl">{item.icon}</div>
+                    <div>
+                      <h4 className="text-xl font-semibold text-gray-900 mb-2" style={{ fontFamily: 'Inter, sans-serif' }}>
+                        {item.title}
+                      </h4>
+                      <p className="text-gray-600" style={{ fontFamily: 'Inter, sans-serif' }}>
+                        {item.desc}
+                      </p>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              className="relative"
+            >
+              <div className="relative rounded-3xl overflow-hidden shadow-2xl">
+                <div className="absolute inset-0 bg-gradient-to-br from-teal-600/20 to-teal-800/20 z-10" />
                 <Image
                   src="/pexels-googledeepmind-17484901.jpg"
-                  alt="AI and technology concept - representing custom AI solutions"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 50vw"
+                  alt="AI and technology concept"
+                  width={600}
+                  height={600}
+                  className="w-full h-full object-cover"
                 />
+                <div className="absolute bottom-6 left-6 right-6 z-20">
+                  <div className="p-6 bg-white/90 backdrop-blur-sm rounded-2xl border border-white/20">
+                    <p className="text-gray-800 font-medium" style={{ fontFamily: 'Inter, sans-serif' }}>
+                      "No templates. No fluff. Just useful tech that solves real problems."
+                    </p>
+                  </div>
+                </div>
               </div>
             </motion.div>
           </div>
         </div>
       </section>
 
-      {/* About Section */}
-      <section id="about" className="py-20 bg-gradient-to-br from-teal-100 to-teal-200/50 relative">
-        <div className="max-w-4xl mx-auto px-4 text-center relative">
-          <h2 className="text-3xl md:text-4xl font-bold mb-10 text-gray-800 relative" style={{ fontFamily: 'Manrope, sans-serif' }}>
-            About Zelo
-            <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-20 h-px bg-teal-500"></div>
-          </h2>
-          <p className="text-xl text-gray-700 mb-8 leading-relaxed max-w-3xl mx-auto font-light" style={{ fontFamily: 'Manrope, sans-serif' }}>
-            Zelo started as a passion project between two friends who believed that great technology 
-            shouldn't come with an astronomical price tag. We've seen too many small businesses 
-            struggle with overpriced solutions that don't truly fit their needs.
-          </p>
-          <p className="text-lg text-gray-600 mb-16 leading-relaxed max-w-3xl mx-auto font-normal" style={{ fontFamily: 'Manrope, sans-serif' }}>
-            That's why we build. Custom websites, AI agents, and automations that are crafted specifically 
-            for your business - not cookie-cutter solutions. Every project gets our personal touch, 
-            because we believe your business deserves something uniquely yours, at a price that actually makes sense.
-          </p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16">
+      {/* About Section - Premium Design */}
+      <section id="about" className="py-24 md:py-32 bg-gradient-to-br from-gray-50 to-white relative">
+        <div className="max-w-6xl mx-auto px-6 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-12 text-gray-900" style={{ fontFamily: 'Inter, sans-serif' }}>
+              About <span className="text-teal-600">Zelo</span>
+            </h2>
+            <p className="text-xl md:text-2xl text-gray-600 mb-8 leading-relaxed max-w-4xl mx-auto font-light" style={{ fontFamily: 'Inter, sans-serif' }}>
+              Zelo started as a side hustle between two friends who wanted to build things that actually work.
+            </p>
+            <p className="text-lg text-gray-700 mb-16 leading-relaxed max-w-4xl mx-auto" style={{ fontFamily: 'Inter, sans-serif' }}>
+              We've seen too many small businesses struggle with overpriced solutions that don't truly fit their needs. 
+              That's why we build custom websites, AI agents, and automations that are crafted specifically 
+              for your business — not cookie-cutter solutions.
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
-              { value: 'Personal Touch', bg: 'bg-teal-600' },
-              { value: 'Fair Pricing', bg: 'bg-teal-700' },
-              { value: 'Custom Built', bg: 'bg-teal-500' }
-            ].map((item) => (
-              <motion.div 
-                key={item.value} 
-                whileHover={{ scale: 1.02, y: -2, boxShadow: "0 20px 40px rgba(20, 184, 166, 0.2)" }}
-                transition={{ type: "spring", stiffness: 400 }}
-                className={`p-8 rounded-xl ${item.bg} text-white shadow-lg hover:shadow-xl transition-all duration-300`}
+              { 
+                title: 'Personal Touch', 
+                icon: '👥',
+                description: 'Every project gets our undivided attention and expertise',
+                gradient: 'from-teal-500 to-teal-600' 
+              },
+              { 
+                title: 'Fair Pricing', 
+                icon: '💰',
+                description: 'Quality solutions at prices that actually make sense',
+                gradient: 'from-teal-600 to-teal-700' 
+              },
+              { 
+                title: 'Custom Built', 
+                icon: '🔧',
+                description: 'Tailored solutions designed specifically for your needs',
+                gradient: 'from-teal-700 to-teal-800' 
+              }
+            ].map((item, index) => (
+              <motion.div
+                key={item.title}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.2, duration: 0.8 }}
+                whileHover={{ 
+                  y: -8, 
+                  boxShadow: "0 25px 50px rgba(45, 212, 191, 0.2)",
+                  scale: 1.02
+                }}
+                className={`group relative p-8 rounded-3xl bg-gradient-to-br ${item.gradient} text-white shadow-xl hover:shadow-2xl transition-all duration-500 overflow-hidden`}
               >
-                <div className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center text-white mb-6 shadow-md">
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                  </svg>
+                <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-16 translate-x-16 group-hover:scale-150 transition-transform duration-500" />
+                <div className="relative z-10">
+                  <div className="text-4xl mb-6">{item.icon}</div>
+                  <h3 className="text-2xl font-bold mb-4" style={{ fontFamily: 'Inter, sans-serif' }}>
+                    {item.title}
+                  </h3>
+                  <p className="text-white/90 leading-relaxed" style={{ fontFamily: 'Inter, sans-serif' }}>
+                    {item.description}
+                  </p>
                 </div>
-                <h3 className="text-lg font-bold" style={{ fontFamily: 'Manrope, sans-serif' }}>{item.value}</h3>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      <section className="py-20 bg-gradient-to-br from-teal-50 to-teal-100 relative">
-        <div className="max-w-6xl mx-auto px-4 relative">
-          <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-6 relative" style={{ fontFamily: 'Manrope, sans-serif' }}>
-            What Our Clients Say
-            <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-20 h-px bg-teal-500"></div>
-          </h2>
-          <p className="text-center text-gray-600 mb-16 text-lg max-w-2xl mx-auto font-light" style={{ fontFamily: 'Manrope, sans-serif' }}>Real stories from real people who trusted us with their vision</p>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <motion.div
-              whileHover={{ scale: 1.02, y: -2, boxShadow: "0 20px 40px rgba(20, 184, 166, 0.15)" }}
-              transition={{ type: "spring", stiffness: 400 }}
-              className="p-8 rounded-xl bg-white/80 backdrop-blur-sm border border-teal-200/50 shadow-lg hover:shadow-xl transition-all duration-300"
-            >
-              <div className="flex items-center mb-6">
-                <div className="w-12 h-12 bg-teal-600 rounded-lg flex items-center justify-center text-white font-semibold text-sm shadow-md">
-                  SC
-                </div>
-                <div className="ml-4">
-                  <h4 className="font-bold text-gray-800 text-lg" style={{ fontFamily: 'Manrope, sans-serif' }}>Sarah Chen</h4>
-                  <p className="text-gray-600 text-sm font-normal" style={{ fontFamily: 'Manrope, sans-serif' }}>Local Restaurant Owner</p>
-                </div>
-              </div>
-              <div className="relative">
-                <span className="text-2xl text-teal-400/30 font-serif absolute -top-1 -left-1">"</span>
-                <p className="text-gray-700 leading-relaxed mb-4 italic pl-4 text-base" style={{ fontFamily: 'Georgia, serif' }}>
-                  The Zelo team built us a beautiful website that perfectly captures our restaurant's personality. 
-                  What impressed me most was how they really listened to what we needed and delivered something 
-                  uniquely ours - not just another template. And the price was incredibly fair!
-                </p>
-                <span className="text-2xl text-teal-400/30 font-serif absolute -bottom-4 right-0">"</span>
-              </div>
-              <div className="flex text-teal-500 mt-6">
-                {'★★★★★'.split('').map((star, i) => (
-                  <span key={i} className="text-sm">{star}</span>
-                ))}
-              </div>
-            </motion.div>
+      {/* Testimonials Section - Enhanced - HIDDEN FOR NOW */}
+      {false && (
+        <section className="py-24 md:py-32 bg-gradient-to-br from-teal-50/50 to-white relative">
+          <div className="max-w-7xl mx-auto px-6">
+            <div className="text-center mb-20">
+              <motion.h2 
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
+                className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6"
+                style={{ fontFamily: 'Inter, sans-serif' }}
+              >
+                What Our Clients Say
+              </motion.h2>
+              <motion.p 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3, duration: 0.8 }}
+                className="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed font-light"
+                style={{ fontFamily: 'Inter, sans-serif' }}
+              >
+                Real stories from real people who trusted us with their vision
+              </motion.p>
+            </div>
 
-            <motion.div
-              whileHover={{ scale: 1.02, y: -2, boxShadow: "0 20px 40px rgba(20, 184, 166, 0.15)" }}
-              transition={{ type: "spring", stiffness: 400 }}
-              className="p-8 rounded-xl bg-white/80 backdrop-blur-sm border border-teal-200/50 shadow-lg hover:shadow-xl transition-all duration-300"
-            >
-              <div className="flex items-center mb-6">
-                <div className="w-12 h-12 bg-teal-700 rounded-lg flex items-center justify-center text-white font-semibold text-sm shadow-md">
-                  MR
-                </div>
-                <div className="ml-4">
-                  <h4 className="font-bold text-gray-800 text-lg" style={{ fontFamily: 'Manrope, sans-serif' }}>Marcus Rodriguez</h4>
-                  <p className="text-gray-600 text-sm font-normal" style={{ fontFamily: 'Manrope, sans-serif' }}>E-commerce Business</p>
-                </div>
-              </div>
-              <div className="relative">
-                <span className="text-2xl text-teal-400/30 font-serif absolute -top-1 -left-1">"</span>
-                <p className="text-gray-700 leading-relaxed mb-4 italic pl-4 text-base" style={{ fontFamily: 'Georgia, serif' }}>
-                  Zelo automated our entire inventory management process. What used to take hours now happens 
-                  automatically. They understood our workflow and built something that just works. 
-                  The ROI was immediate and the team was incredibly responsive throughout the project.
-                </p>
-                <span className="text-2xl text-teal-400/30 font-serif absolute -bottom-4 right-0">"</span>
-              </div>
-              <div className="flex text-teal-500 mt-6">
-                {'★★★★★'.split('').map((star, i) => (
-                  <span key={i} className="text-sm">{star}</span>
-                ))}
-              </div>
-            </motion.div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {[
+                {
+                  name: 'Sarah Chen',
+                  role: 'Local Restaurant Owner',
+                  avatar: 'SC',
+                  testimonial: 'The Zelo team built us a beautiful website that perfectly captures our restaurant\'s personality. What impressed me most was how they really listened to what we needed and delivered something uniquely ours - not just another template. The price was incredibly fair!',
+                  rating: 5
+                },
+                {
+                  name: 'Marcus Rodriguez',
+                  role: 'E-commerce Business',
+                  avatar: 'MR',
+                  testimonial: 'Zelo automated our entire inventory management process. What used to take hours now happens automatically. They understood our workflow and built something that just works. The ROI was immediate and the team was incredibly responsive.',
+                  rating: 5
+                }
+              ].map((testimonial, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.2, duration: 0.8 }}
+                  whileHover={{ 
+                    y: -8, 
+                    boxShadow: "0 25px 50px rgba(45, 212, 191, 0.15)",
+                    scale: 1.02
+                  }}
+                  className="group relative p-8 rounded-3xl bg-white/80 backdrop-blur-sm border border-white/20 shadow-xl hover:shadow-2xl transition-all duration-500"
+                >
+                  <div className="flex items-center mb-6">
+                    <div className="w-16 h-16 bg-gradient-to-br from-teal-500 to-teal-600 rounded-2xl flex items-center justify-center text-white font-bold text-xl shadow-lg">
+                      {testimonial.avatar}
+                    </div>
+                    <div className="ml-4">
+                      <h4 className="font-bold text-gray-900 text-xl" style={{ fontFamily: 'Inter, sans-serif' }}>
+                        {testimonial.name}
+                      </h4>
+                      <p className="text-gray-600 font-medium" style={{ fontFamily: 'Inter, sans-serif' }}>
+                        {testimonial.role}
+                      </p>
+                    </div>
+                  </div>
+                  
+                  <div className="mb-6">
+                    <div className="flex text-yellow-400 mb-4">
+                      {[...Array(testimonial.rating)].map((_, i) => (
+                        <svg key={i} className="w-5 h-5 fill-current" viewBox="0 0 20 20">
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                    <p className="text-gray-700 leading-relaxed text-lg italic" style={{ fontFamily: 'Georgia, serif' }}>
+                      "{testimonial.testimonial}"
+                    </p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
           </div>
+        </section>
+      )}
+
+      {/* Contact Section - Premium CTA */}
+      <section id="contact" className="py-24 md:py-32 bg-gradient-to-br from-gray-50 to-white relative overflow-hidden">
+        <div className="max-w-4xl mx-auto px-6 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-12 text-gray-900" style={{ fontFamily: 'Inter, sans-serif' }}>
+              Let's Build <span className="text-teal-600">Together</span>
+            </h2>
+            <p className="text-xl md:text-2xl text-gray-600 mb-12 leading-relaxed max-w-3xl mx-auto font-light" style={{ fontFamily: 'Inter, sans-serif' }}>
+              Ready to bring your vision to life? Join our waitlist or reach out directly — we'd love to chat about your project.
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3, duration: 0.8 }}
+            className="mb-12"
+          >
+            <form onSubmit={sendEmail} className="flex flex-col sm:flex-row gap-4 p-3 bg-white/80 backdrop-blur-sm rounded-2xl border border-white/20 shadow-2xl max-w-2xl mx-auto">
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Enter your email address here..."
+                className="flex-1 px-8 py-4 rounded-xl bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-teal-500 transition-all duration-300 border border-gray-200 text-lg font-medium"
+                style={{ fontFamily: 'Inter, sans-serif' }}
+                required
+              />
+              <motion.button
+                type="submit"
+                disabled={sending}
+                whileHover={{ scale: 1.02, boxShadow: "0 20px 40px rgba(45, 212, 191, 0.3)" }}
+                whileTap={{ scale: 0.98 }}
+                className="px-8 py-4 rounded-xl bg-gradient-to-r from-teal-600 to-teal-700 hover:from-teal-700 hover:to-teal-800 text-white font-semibold text-lg transition-all duration-300 shadow-lg disabled:opacity-70 disabled:cursor-not-allowed"
+                style={{ fontFamily: 'Inter, sans-serif' }}
+              >
+                {sending ? 'Sending...' : 'Get in Touch'}
+              </motion.button>
+            </form>
+          </motion.div>
+
+                      <div className="text-center">
+              <p className="text-gray-600 text-lg" style={{ fontFamily: 'Inter, sans-serif' }}>
+                Ready to discuss your project? Enter your email above and we'll get back to you.
+              </p>
+            </div>
         </div>
       </section>
 
-      {/* Contact Section */}
-      <section id="contact" className="py-20 bg-gradient-to-br from-teal-100 to-teal-200/50 relative">
-        <div className="absolute top-16 right-16 w-16 h-16 bg-teal-400/20 rounded-full blur-xl animate-float" />
-        <div className="absolute bottom-16 left-16 w-20 h-20 bg-teal-300/20 rounded-full blur-xl animate-float" style={{ animationDelay: '1s' }} />
-        <div className="max-w-xl mx-auto px-4 text-center relative">
-          <h2 className="text-3xl md:text-4xl font-bold mb-10 text-gray-800 relative" style={{ fontFamily: 'Manrope, sans-serif' }}>
-            Let's Build Together
-            <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-24 h-px bg-teal-500"></div>
-          </h2>
-          <p className="text-xl text-gray-700 mb-12 leading-relaxed max-w-lg mx-auto font-light" style={{ fontFamily: 'Manrope, sans-serif' }}>
-            Ready to bring your vision to life? Join our waitlist or reach out directly - we'd love to chat about your project and show you how affordable custom solutions can be.
-          </p>
-          <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-4 mb-10">
-            <input
-              type="email"
-              placeholder="Enter your work email"
-              className="flex-1 px-6 py-3 rounded-xl bg-white/80 backdrop-blur-sm text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all duration-200 border border-teal-200 shadow-md text-lg font-normal"
-              style={{ fontFamily: 'Manrope, sans-serif' }}
-            />
-            <motion.button
-              type="submit"
-              whileHover={{ scale: 1.01 }}
-              whileTap={{ scale: 0.99 }}
-              className="px-6 py-3 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-normal focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 transition-all duration-200 shadow-md text-lg"
-              style={{ fontFamily: 'Manrope, sans-serif' }}
-            >
-              Join Waitlist
-            </motion.button>
-          </form>
-          <div className="flex justify-center space-x-10">
-            <motion.a 
-              href="#" 
-              whileHover={{ scale: 1.02 }}
-              className="text-teal-600 hover:text-teal-700 transition-colors font-normal text-lg"
-              style={{ fontFamily: 'Manrope, sans-serif' }}
-            >
-              LinkedIn
-            </motion.a>
-            <motion.a 
-              href="#" 
-              whileHover={{ scale: 1.02 }}
-              className="text-teal-600 hover:text-teal-700 transition-colors font-normal text-lg"
-              style={{ fontFamily: 'Manrope, sans-serif' }}
-            >
-              WhatsApp
-            </motion.a>
-            <motion.a 
-              href="#" 
-              whileHover={{ scale: 1.02 }}
-              className="text-teal-600 hover:text-teal-700 transition-colors font-normal text-lg"
-              style={{ fontFamily: 'Manrope, sans-serif' }}
-            >
-              Calendly
-            </motion.a>
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="bg-gray-900 text-white py-16 relative">
-        <div className="absolute inset-0 bg-gradient-to-br from-teal-800/20 to-teal-600/20"></div>
-        <div className="max-w-6xl mx-auto px-4 relative">
-          <div className="text-center mb-12">
-            <p className="text-xl font-bold mb-3 text-teal-400" style={{ fontFamily: 'Manrope, sans-serif' }}>
-              "Built by humans, for humans"
-            </p>
-            <p className="text-white/70 text-base font-normal" style={{ fontFamily: 'Manrope, sans-serif' }}>
-              Two friends, endless possibilities
-            </p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
-            <div>
-              <div className="text-xl font-bold mb-4 text-teal-400" style={{ fontFamily: 'Manrope, sans-serif' }}>
+      {/* Footer - Minimalistic Design */}
+      <footer className="relative bg-white border-t border-gray-100">
+        <div className="max-w-7xl mx-auto px-6 py-12">
+          {/* Main footer content */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+            {/* Brand */}
+            <div className="md:col-span-1">
+              <h3 className="text-xl font-bold text-teal-600 mb-3" style={{ fontFamily: 'Inter, sans-serif' }}>
                 Zelo
+              </h3>
+              <p className="text-gray-600 text-sm leading-relaxed" style={{ fontFamily: 'Inter, sans-serif' }}>
+                Built by humans, for humans
+              </p>
+            </div>
+
+            {/* Links */}
+            <div className="md:col-span-2 grid grid-cols-2 gap-8">
+              <div>
+                <h4 className="font-semibold text-gray-900 mb-3 text-sm" style={{ fontFamily: 'Inter, sans-serif' }}>
+                  Legal
+                </h4>
+                <div className="space-y-2">
+                  {['Privacy Policy', 'Terms of Service'].map((item) => (
+                    <Link key={item} href="#" className="block text-gray-600 hover:text-teal-600 transition-colors text-sm" style={{ fontFamily: 'Inter, sans-serif' }}>
+                      {item}
+                    </Link>
+                  ))}
+                </div>
               </div>
-              <p className="text-white/60 font-normal" style={{ fontFamily: 'Manrope, sans-serif' }}>© 2024 Zelo. All rights reserved.</p>
+              
+              <div>
+                <h4 className="font-semibold text-gray-900 mb-3 text-sm" style={{ fontFamily: 'Inter, sans-serif' }}>
+                  Connect
+                </h4>
+                <div className="space-y-2">
+                  {['LinkedIn', 'GitHub'].map((item) => (
+                    <Link key={item} href="#" className="block text-gray-600 hover:text-teal-600 transition-colors text-sm" style={{ fontFamily: 'Inter, sans-serif' }}>
+                      {item}
+                    </Link>
+                  ))}
+                </div>
+              </div>
             </div>
-            <div className="space-y-4">
-              <h4 className="font-bold text-teal-400 mb-4" style={{ fontFamily: 'Manrope, sans-serif' }}>Legal</h4>
-              <Link href="#" className="block text-white/60 hover:text-teal-400 transition-colors font-normal" style={{ fontFamily: 'Manrope, sans-serif' }}>Privacy Policy</Link>
-              <Link href="#" className="block text-white/60 hover:text-teal-400 transition-colors font-normal" style={{ fontFamily: 'Manrope, sans-serif' }}>Terms of Service</Link>
-              <Link href="#" className="block text-white/60 hover:text-teal-400 transition-colors font-normal" style={{ fontFamily: 'Manrope, sans-serif' }}>Contact</Link>
+
+            {/* Contact */}
+            <div className="md:col-span-1">
+              <h4 className="font-semibold text-gray-900 mb-3 text-sm" style={{ fontFamily: 'Inter, sans-serif' }}>
+                Contact
+              </h4>
+              <Link href="#contact" className="text-gray-600 hover:text-teal-600 transition-colors text-sm" style={{ fontFamily: 'Inter, sans-serif' }}>
+                Get in touch
+              </Link>
             </div>
-            <div className="space-y-4">
-              <h4 className="font-bold text-teal-400 mb-4" style={{ fontFamily: 'Manrope, sans-serif' }}>Connect</h4>
-              <motion.a 
-                href="#" 
-                whileHover={{ scale: 1.01 }}
-                className="block text-white/60 hover:text-teal-400 transition-colors font-normal"
-                style={{ fontFamily: 'Manrope, sans-serif' }}
-              >
-                LinkedIn
-              </motion.a>
-              <motion.a 
-                href="#" 
-                whileHover={{ scale: 1.01 }}
-                className="block text-white/60 hover:text-teal-400 transition-colors font-normal"
-                style={{ fontFamily: 'Manrope, sans-serif' }}
-              >
-                GitHub
-              </motion.a>
-            </div>
+          </div>
+
+          {/* Bottom bar */}
+          <div className="pt-6 border-t border-gray-100 flex flex-col md:flex-row justify-between items-center gap-4">
+            <p className="text-gray-500 text-xs" style={{ fontFamily: 'Inter, sans-serif' }}>
+              © 2024 Zelo. All rights reserved.
+            </p>
+            <p className="text-gray-400 text-xs" style={{ fontFamily: 'Inter, sans-serif' }}>
+              Real humans. Real results. Just getting started.
+            </p>
           </div>
         </div>
       </footer>
 
-
-
       <style jsx global>{`
         html {
           scroll-behavior: smooth;
+        }
+        
+        @keyframes float {
+          0%, 100% { transform: translateY(0px) rotate(0deg); }
+          50% { transform: translateY(-20px) rotate(5deg); }
         }
       `}</style>
     </main>
