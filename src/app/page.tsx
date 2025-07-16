@@ -208,7 +208,7 @@ export default function Home() {
             <div className="flex items-center justify-center gap-3 text-lg text-gray-600 font-medium">
               <span className="text-2xl">⚡️</span>
               <span style={{ fontFamily: 'Inter, sans-serif' }}>
-                One client down. One AI agent live-tested. Let's build the next with you.
+                One client down. One AI agent live-tested. Let&apos;s build the next with you.
               </span>
             </div>
           </motion.div>
@@ -321,7 +321,7 @@ export default function Home() {
                 <span className="block text-teal-600 mt-2">Built for You</span>
               </h2>
               <p className="text-xl md:text-2xl text-gray-600 mb-8 leading-relaxed font-light" style={{ fontFamily: 'Inter, sans-serif' }}>
-                Have an idea? We'll help you bring it to life with cutting-edge technology.
+                Have an idea? We&apos;ll help you bring it to life with cutting-edge technology.
               </p>
               <p className="text-lg text-gray-700 mb-12 leading-relaxed" style={{ fontFamily: 'Inter, sans-serif' }}>
                 From simple automations to fully tailored AI agents, we build exactly what your business needs — no templates, just technology that works for you.
@@ -372,7 +372,7 @@ export default function Home() {
                 <div className="absolute bottom-6 left-6 right-6 z-20">
                   <div className="p-6 bg-white/90 backdrop-blur-sm rounded-2xl border border-white/20">
                     <p className="text-gray-800 font-medium" style={{ fontFamily: 'Inter, sans-serif' }}>
-                      "No templates. No fluff. Just useful tech that solves real problems."
+                      &ldquo;No templates. No fluff. Just useful tech that solves real problems.&rdquo;
                     </p>
                   </div>
                 </div>
@@ -397,8 +397,8 @@ export default function Home() {
               Zelo started as a side hustle between two friends who wanted to build things that actually work.
             </p>
             <p className="text-lg text-gray-700 mb-16 leading-relaxed max-w-4xl mx-auto" style={{ fontFamily: 'Inter, sans-serif' }}>
-              We've seen too many small businesses struggle with overpriced solutions that don't truly fit their needs. 
-              That's why we build custom websites, AI agents, and automations that are crafted specifically 
+              We&apos;ve seen too many small businesses struggle with overpriced solutions that don&apos;t truly fit their needs. 
+              That&apos;s why we build custom websites, AI agents, and automations that are crafted specifically 
               for your business — not cookie-cutter solutions.
             </p>
           </motion.div>
@@ -529,7 +529,7 @@ export default function Home() {
                       ))}
                     </div>
                     <p className="text-gray-700 leading-relaxed text-lg italic" style={{ fontFamily: 'Georgia, serif' }}>
-                      "{testimonial.testimonial}"
+                      &ldquo;{testimonial.testimonial}&rdquo;
                     </p>
                   </div>
                 </motion.div>
@@ -548,10 +548,10 @@ export default function Home() {
             transition={{ duration: 0.8 }}
           >
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-12 text-gray-900" style={{ fontFamily: 'Inter, sans-serif' }}>
-              Let's Build <span className="text-teal-600">Together</span>
+              Let&apos;s Build <span className="text-teal-600">Together</span>
             </h2>
             <p className="text-xl md:text-2xl text-gray-600 mb-12 leading-relaxed max-w-3xl mx-auto font-light" style={{ fontFamily: 'Inter, sans-serif' }}>
-              Ready to bring your vision to life? Join our waitlist or reach out directly — we'd love to chat about your project.
+              Ready to bring your vision to life? Join our waitlist or reach out directly — we&apos;d love to chat about your project.
             </p>
           </motion.div>
 
@@ -586,7 +586,7 @@ export default function Home() {
 
                       <div className="text-center">
               <p className="text-gray-600 text-lg" style={{ fontFamily: 'Inter, sans-serif' }}>
-                Ready to discuss your project? Enter your email above and we'll get back to you.
+                Ready to discuss your project? Enter your email above and we&apos;ll get back to you.
               </p>
             </div>
         </div>
