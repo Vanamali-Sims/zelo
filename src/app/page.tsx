@@ -9,6 +9,7 @@ import emailjs from '@emailjs/browser'
 export default function Home() { 
   const [email, setEmail] = useState('')
   const [sending, setSending] = useState(false)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   const sendEmail = (e: React.FormEvent) => {
     e.preventDefault()
@@ -31,6 +32,10 @@ export default function Home() {
         alert('Something went wrong. Try again later.')
       }
     ).finally(() => setSending(false))
+  }
+
+  const handleMenuItemClick = () => {
+    setMobileMenuOpen(false)
   }
 
   return (
@@ -61,6 +66,8 @@ export default function Home() {
               Zelo
             </Link>
           </motion.div>
+          
+          {/* Desktop Menu */}
           <div className="hidden md:flex items-center space-x-10">
             {['Agents', 'Consulting', 'About', 'Contact'].map((item) => (
               <motion.div key={item} whileHover={{ y: -2 }} transition={{ type: "spring", stiffness: 400 }}>
@@ -71,16 +78,78 @@ export default function Home() {
               </motion.div>
             ))}
           </div>
+          
+          {/* Mobile Menu Button */}
           <motion.button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="md:hidden p-2 rounded-lg bg-teal-600 text-white"
+            className="md:hidden p-2 rounded-lg bg-teal-600 text-white relative z-50"
           >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
+            <motion.svg 
+              className="w-6 h-6" 
+              fill="none" 
+              stroke="currentColor" 
+              viewBox="0 0 24 24"
+              animate={mobileMenuOpen ? { rotate: 90 } : { rotate: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              {mobileMenuOpen ? (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              ) : (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              )}
+            </motion.svg>
           </motion.button>
         </motion.div>
+
+        {/* Mobile Menu Overlay */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={mobileMenuOpen ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
+          transition={{ duration: 0.3, ease: "easeOut" }}
+          className={`${mobileMenuOpen ? 'block' : 'hidden'} md:hidden absolute top-full left-6 right-6 mt-2`}
+        >
+          <div className="rounded-2xl bg-white/98 backdrop-blur-md shadow-2xl border border-white/50 ring-1 ring-black/5 py-6">
+            <div className="space-y-1">
+              {['Agents', 'Consulting', 'About', 'Contact'].map((item, index) => (
+                <motion.div
+                  key={item}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={mobileMenuOpen ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
+                  transition={{ delay: index * 0.1, duration: 0.3 }}
+                >
+                  <Link 
+                    href={`#${item.toLowerCase()}`}
+                    onClick={handleMenuItemClick}
+                    className="block px-6 py-4 text-gray-800 hover:text-teal-600 hover:bg-teal-50/90 transition-all duration-300 font-medium text-lg relative group"
+                    style={{ fontFamily: 'Inter, sans-serif' }}
+                  >
+                    {item}
+                    <motion.div
+                      className="absolute bottom-0 left-6 right-6 h-0.5 bg-teal-600 origin-left"
+                      initial={{ scaleX: 0 }}
+                      whileHover={{ scaleX: 1 }}
+                      transition={{ duration: 0.3 }}
+                    />
+                  </Link>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Mobile Menu Background Overlay */}
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40 md:hidden"
+            onClick={() => setMobileMenuOpen(false)}
+          />
+        )}
       </nav>
 
       {/* Hero Section - Enhanced Design */}
