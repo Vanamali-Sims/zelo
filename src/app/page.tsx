@@ -110,7 +110,7 @@ export default function Home() {
           transition={{ duration: 0.3, ease: "easeOut" }}
           className={`${mobileMenuOpen ? 'block' : 'hidden'} md:hidden absolute top-full left-6 right-6 mt-2`}
         >
-          <div className="rounded-2xl bg-white/98 backdrop-blur-md shadow-2xl border border-white/50 ring-1 ring-black/5 py-6">
+          <div className="rounded-2xl bg-white shadow-2xl border border-gray-200 ring-1 ring-black/5 py-6">
             <div className="space-y-1">
               {['Agents', 'Consulting', 'About', 'Contact'].map((item, index) => (
                 <motion.div
@@ -122,7 +122,7 @@ export default function Home() {
                   <Link 
                     href={`#${item.toLowerCase()}`}
                     onClick={handleMenuItemClick}
-                    className="block px-6 py-4 text-gray-800 hover:text-teal-600 hover:bg-teal-50/90 transition-all duration-300 font-medium text-lg relative group"
+                    className="block px-6 py-4 text-gray-800 hover:text-teal-600 hover:bg-teal-50 transition-all duration-300 font-medium text-lg relative group"
                     style={{ fontFamily: 'Inter, sans-serif' }}
                   >
                     {item}
@@ -146,7 +146,7 @@ export default function Home() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40 md:hidden"
+            className="fixed inset-0 bg-black/20 z-40 md:hidden"
             onClick={() => setMobileMenuOpen(false)}
           />
         )}
